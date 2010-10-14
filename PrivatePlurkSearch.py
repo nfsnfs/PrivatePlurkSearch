@@ -14,7 +14,7 @@ encode = urllib.urlencode
 user_name = '' # your username
 pass_word = '' # your password
 
-max_plurk = 50 # default max plurks
+max_plurk = 100 # default max plurks
 total_plurk = 0
 
 reload(sys)
@@ -48,13 +48,12 @@ result = simplejson.load(fp);
 if result['success_text'] == 'ok':
 	print 'Login Success'
 
-time = nowtime
 
 # get plurk
 while total_plurk < max_plurk:
 	fp = opener.open(get_api_url('/Timeline/getPlurks'),
 			 encode({'api_key': api_key,
-				 'offset': time,
+				 'offset': nowtime,
 				 'limit': max_plurk-total_plurk,
 				 'filter': only_private}))
 
@@ -72,14 +71,14 @@ while total_plurk < max_plurk:
 			id = simplejson.loads(k)
 			
 			if id['nick_name'] == search_user or search_user == '':
-				if plurkset['content_raw'].find(search_word) != -1 or search_word == '':
+				if search_word in plurkset['content_raw']:
 					print   id['nick_name'].decode('cp950').encode('utf-8') + ' ' + plurkset['qualifier'].decode('cp950').encode('utf-8') + ':' + plurkset['content_raw'] + ' ' + 'http://www.plurk.com/p/'+ _baseN(plurkset['plurk_id'], 36)
 			i = i + 1
 
 	# time combination
 		s = simplejson.dumps(result['plurks'][i-1])
 		r = simplejson.loads(s)
-		time = r['posted'][12:16] + '-' + month[r['posted'][8:11]] + '-' + r['posted'][5:7] + 'T' + r['posted'][17:25]
+		nowtime = time.strptime(r['posted'][12:16] + '/' + month[r['posted'][8:11]] + '/' + r['posted'][5:7] + ' ' +r['posted'][17:25], '%Y/%m/%d %H:%M:%S')
 	
 	else:
 		fp.close()
