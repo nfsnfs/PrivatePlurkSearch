@@ -78,7 +78,7 @@ while total_plurk < max_plurk:
 	# time combination
 		s = simplejson.dumps(result['plurks'][i-1])
 		r = simplejson.loads(s)
-		nowtime = time.strptime(r['posted'][12:16] + '/' + month[r['posted'][8:11]] + '/' + r['posted'][5:7] + ' ' +r['posted'][17:25], '%Y/%m/%d %H:%M:%S')
+		nowtime = time.strptime(r['posted'][5:8] + month[r['posted'][8:11]] + r['posted'][11:25], '%d %m %Y %H:%M:%S')
 	
 	else:
 		fp.close()
