@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# old version 
+# prepare to update to Plurk API 2.0
 # -*- coding: utf-8 -*-
 import urllib, urllib2, cookielib, time, simplejson, string, sys
 
